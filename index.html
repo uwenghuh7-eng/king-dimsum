@@ -5,62 +5,152 @@
 <title>King Dimsum</title>
 
 <style>
+* { box-sizing: border-box; }
+
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(120deg, #ffefef, #fff);
     padding: 20px;
 }
 
 .container {
-    max-width: 420px;
+    max-width: 1000px;
     margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
 }
 
 h1 {
     text-align: center;
-    color: red;
+    color: #d80000;
+    font-size: 36px;
 }
 
-.menu {
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
+.subtitle {
+    text-align: center;
+    color: #555;
+    margin-bottom: 40px;
 }
 
-.menu button {
-    padding: 5px 10px;
-    margin: 5px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
 }
 
-.tambah { background: red; color: white; }
-.kurang { background: gray; color: white; }
+.card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transition: transform .3s, box-shadow .3s;
+}
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
 
-input, textarea {
+.card img {
     width: 100%;
-    padding: 8px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 18px;
+}
+
+.card-body h3 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.price {
+    color: #d80000;
+    font-weight: bold;
     margin-top: 5px;
 }
 
+.btn {
+    margin-top: 12px;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+    transition: transform .2s;
+}
+
+.btn:active {
+    transform: scale(0.9);
+}
+
+.plus {
+    background: linear-gradient(45deg, #ff0000, #ff6a00);
+    color: white;
+}
+
+.minus {
+    background: #999;
+    color: white;
+    margin-left: 5px;
+}
+
+.btn::after {
+    content: "";
+    position: absolute;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple .6s linear;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.order-box {
+    background: white;
+    padding: 25px;
+    margin-top: 40px;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
 .total {
-    font-size: 18px;
+    font-size: 22px;
     margin-top: 15px;
-    text-align: center;
 }
 
 .wa {
     display: block;
-    background: green;
+    background: linear-gradient(45deg, #00c853, #009624);
     color: white;
     text-align: center;
-    padding: 12px;
-    margin-top: 15px;
-    border-radius: 8px;
+    padding: 16px;
+    margin-top: 20px;
+    border-radius: 30px;
     text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-6px); }
+    60% { transform: translateY(-3px); }
 }
 </style>
 </head>
@@ -69,36 +159,53 @@ input, textarea {
 
 <div class="container">
 <h1>🍽️ King Dimsum</h1>
+<div class="subtitle">Dimsum Premium • Fresh • Lezat</div>
 
+<div class="menu-grid">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1604908177522-0504f4fddc62">
+<div class="card-body">
+<h3>Dimsum Ayam</h3>
+<div class="price">Rp 15.000</div>
+<button class="btn plus" onclick="ubah(15000,'Dimsum Ayam',1)">+</button>
+<button class="btn minus" onclick="ubah(15000,'Dimsum Ayam',-1)">-</button>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1617191519105-d07b98d1c8a4">
+<div class="card-body">
+<h3>Dimsum Udang</h3>
+<div class="price">Rp 18.000</div>
+<button class="btn plus" onclick="ubah(18000,'Dimsum Udang',1)">+</button>
+<button class="btn minus" onclick="ubah(18000,'Dimsum Udang',-1)">-</button>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1625944525533-473f1f7d7a19">
+<div class="card-body">
+<h3>Dimsum Keju</h3>
+<div class="price">Rp 17.000</div>
+<button class="btn plus" onclick="ubah(17000,'Dimsum Keju',1)">+</button>
+<button class="btn minus" onclick="ubah(17000,'Dimsum Keju',-1)">-</button>
+</div>
+</div>
+
+</div>
+
+<div class="order-box">
 <label>Nama Pembeli</label>
 <input id="nama" placeholder="Masukkan nama">
 
 <label>Catatan Pesanan</label>
 <textarea id="catatan" placeholder="Contoh: pedas, tanpa saus"></textarea>
 
-<div class="menu">
-<b>Dimsum Ayam</b> - Rp 15.000 <br>
-<button class="tambah" onclick="ubah(15000, 'Dimsum Ayam', 1)">+</button>
-<button class="kurang" onclick="ubah(15000, 'Dimsum Ayam', -1)">-</button>
-</div>
+<div class="total">Total: Rp <span id="total">0</span></div>
 
-<div class="menu">
-<b>Dimsum Udang</b> - Rp 18.000 <br>
-<button class="tambah" onclick="ubah(18000, 'Dimsum Udang', 1)">+</button>
-<button class="kurang" onclick="ubah(18000, 'Dimsum Udang', -1)">-</button>
+<a class="wa" onclick="orderWA()">Order via WhatsApp</a>
 </div>
-
-<div class="menu">
-<b>Dimsum Keju</b> - Rp 17.000 <br>
-<button class="tambah" onclick="ubah(17000, 'Dimsum Keju', 1)">+</button>
-<button class="kurang" onclick="ubah(17000, 'Dimsum Keju', -1)">-</button>
-</div>
-
-<div class="total">
-Total: Rp <span id="total">0</span>
-</div>
-
-<a class="wa" id="wa" target="_blank">Order via WhatsApp</a>
 </div>
 
 <script>
@@ -114,31 +221,33 @@ function ubah(harga, nama, jumlah) {
     if (total < 0) total = 0;
 
     document.getElementById("total").innerText = total;
-    updateWA();
 }
 
-function updateWA() {
-    let nama = document.getElementById("nama").value;
-    let catatan = document.getElementById("catatan").value;
+function orderWA() {
+    let nama = document.getElementById("nama").value || "Customer";
+    let catatan = document.getElementById("catatan").value || "-";
 
     let detail = "";
     for (let item in pesanan) {
         if (pesanan[item] > 0) {
-            detail += item + " x" + pesanan[item] + "%0A";
+            detail += item + " x" + pesanan[item] + "\n";
         }
     }
 
     let pesan =
-        "Halo, saya " + nama + "%0A" +
-        "Pesanan:%0A" + detail +
-        "Catatan: " + catatan + "%0A" +
+        "Halo, saya " + nama + "\n" +
+        "Pesanan:\n" + detail +
+        "Catatan: " + catatan + "\n" +
         "Total: Rp " + total;
 
-    document.getElementById("wa").href =
-        "https://wa.me/6288295088081?text=" + pesan;
+    window.open(
+        "https://wa.me/628NOMORKAMU?text=" + encodeURIComponent(pesan),
+        "_blank"
+    );
 }
 </script>
 
 </body>
 </html>
+
 
