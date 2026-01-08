@@ -1,19 +1,144 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>King Dimsum</title>
+<meta charset="UTF-8">
+<title>King Dimsum</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    padding: 20px;
+}
+
+.container {
+    max-width: 420px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+h1 {
+    text-align: center;
+    color: red;
+}
+
+.menu {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.menu button {
+    padding: 5px 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.tambah { background: red; color: white; }
+.kurang { background: gray; color: white; }
+
+input, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+}
+
+.total {
+    font-size: 18px;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.wa {
+    display: block;
+    background: green;
+    color: white;
+    text-align: center;
+    padding: 12px;
+    margin-top: 15px;
+    border-radius: 8px;
+    text-decoration: none;
+}
+</style>
 </head>
+
 <body>
 
-<h1>King Dimsum</h1>
-<p>Selamat datang di website King Dimsum</p>
+<div class="container">
+<h1>🍽️ King Dimsum</h1>
 
-<h3>Menu</h3>
-<ul>
-    <li>Dimsum Ayam - Rp 15.000</li>
-    <li>Dimsum Udang - Rp 18.000</li>
-    <li>Dimsum Keju - Rp 17.000</li>
-</ul>
+<label>Nama Pembeli</label>
+<input id="nama" placeholder="Masukkan nama">
+
+<label>Catatan Pesanan</label>
+<textarea id="catatan" placeholder="Contoh: pedas, tanpa saus"></textarea>
+
+<div class="menu">
+<b>Dimsum Ayam</b> - Rp 15.000 <br>
+<button class="tambah" onclick="ubah(15000, 'Dimsum Ayam', 1)">+</button>
+<button class="kurang" onclick="ubah(15000, 'Dimsum Ayam', -1)">-</button>
+</div>
+
+<div class="menu">
+<b>Dimsum Udang</b> - Rp 18.000 <br>
+<button class="tambah" onclick="ubah(18000, 'Dimsum Udang', 1)">+</button>
+<button class="kurang" onclick="ubah(18000, 'Dimsum Udang', -1)">-</button>
+</div>
+
+<div class="menu">
+<b>Dimsum Keju</b> - Rp 17.000 <br>
+<button class="tambah" onclick="ubah(17000, 'Dimsum Keju', 1)">+</button>
+<button class="kurang" onclick="ubah(17000, 'Dimsum Keju', -1)">-</button>
+</div>
+
+<div class="total">
+Total: Rp <span id="total">0</span>
+</div>
+
+<a class="wa" id="wa" target="_blank">Order via WhatsApp</a>
+</div>
+
+<script>
+let total = 0;
+let pesanan = {};
+
+function ubah(harga, nama, jumlah) {
+    if (!pesanan[nama]) pesanan[nama] = 0;
+    pesanan[nama] += jumlah;
+    if (pesanan[nama] < 0) pesanan[nama] = 0;
+
+    total += harga * jumlah;
+    if (total < 0) total = 0;
+
+    document.getElementById("total").innerText = total;
+    updateWA();
+}
+
+function updateWA() {
+    let nama = document.getElementById("nama").value;
+    let catatan = document.getElementById("catatan").value;
+
+    let detail = "";
+    for (let item in pesanan) {
+        if (pesanan[item] > 0) {
+            detail += item + " x" + pesanan[item] + "%0A";
+        }
+    }
+
+    let pesan =
+        "Halo, saya " + nama + "%0A" +
+        "Pesanan:%0A" + detail +
+        "Catatan: " + catatan + "%0A" +
+        "Total: Rp " + total;
+
+    document.getElementById("wa").href =
+        "https://wa.me/628XXXXXXXXXX?text=" + pesan;
+}
+</script>
 
 </body>
 </html>
+
